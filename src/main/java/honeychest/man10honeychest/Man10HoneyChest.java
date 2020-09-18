@@ -2,7 +2,6 @@ package honeychest.man10honeychest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,10 +12,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.EventListener;
-
-import static javax.swing.plaf.basic.BasicLookAndFeel.playSound;
 
 public final class Man10HoneyChest extends JavaPlugin implements Listener {
 
@@ -41,7 +36,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!sender.hasPermission("mam10honeychest.op")){
-            sender.sendMessage("§4§lYou don't have enough permission.")
+            sender.sendMessage("§4§lYou don't have enough permission.");
             return false;
         }
         if (command.getName().equalsIgnoreCase("mhchest")) {
@@ -87,6 +82,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent e,Player p) {
         try {
+            //警告用チェスト
             if (e.getView().getTitle().equals("§8チェスト")){
                 if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
                     return;
@@ -99,11 +95,17 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                     return;
                 }
                 e.setCancelled(true);
-                String player = e.getWhoClicked().getName();
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "jail " + player + " moha 10");
-                Bukkit.broadcastMessage(prefix + "§c§l" + player + "さんは『人のチェストからアイテムを取った』の理由で警告されました");
+                String conStrComs = config.getString("warn.runCommand");
+                String conStrSounds = config.getString("warn.playSound");
+
+                Bukkit.broadcastMessage(prefix + config.getString("warn.runMessage").replaceAll("%player%", e.getWhoClicked().getName()));
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs.replaceAll("%player%", e.getWhoClicked().getName()));
+                String[] string = conStrSounds.split(",");
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,"execute at " + e.getWhoClicked().getName() + " run playsound minecraft:" + string[0] + " master @a ~ ~ ~ " + string[1] + " " + string[2] + " 0");
+                //できなかった →→→ p.playSound(p.getLocation(), string[0], string[1], string[2]);
                 return;
             }
+            //Jail用チェスト
             if (e.getView().getTitle().equals("§8Chest")){
                 if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
                     return;
@@ -123,7 +125,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs.replaceAll("%player%", e.getWhoClicked().getName()));
                 String[] string = conStrSounds.split(",");
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,"execute at " + e.getWhoClicked().getName() + " run playsound minecraft:" + string[0] + " master @a ~ ~ ~ " + string[1] + " " + string[2] + " 0");
-                p.playSound(p.getLocation(), string[0], string[1], string[2]);
+                //できなかった →→→ p.playSound(p.getLocation(), string[0], string[1], string[2]);
                     return;
             }
         }catch (NullPointerException ee){
