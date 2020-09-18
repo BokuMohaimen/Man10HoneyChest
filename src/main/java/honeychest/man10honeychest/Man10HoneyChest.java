@@ -60,7 +60,7 @@ public final class Man10HoneyChest extends JavaPlugin {
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         try {
-            if (e.getClickedInventory().getViewers().contains("§H§o§n§e§y§8Chest")) {
+            if (e.getView().getTitle() == "§H§o§n§e§y§8Chest"){
                 if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
                     return;
                 }
