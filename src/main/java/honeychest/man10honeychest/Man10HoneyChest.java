@@ -2,9 +2,13 @@ package honeychest.man10honeychest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.EventListener;
@@ -24,6 +28,35 @@ public final class Man10HoneyChest extends JavaPlugin {
         // Plugin shutdown logic
         getLogger().info("Man10HoneyChestを停止します");
     }
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().equalsIgnoreCase("mhchest")) {
+            if (args.length >= 2) {
+                sender.sendMessage(prefix + "引数に誤りがあります\n" + prefix + "/hchest help");
+                return true;
+            } else if (args[0].equalsIgnoreCase("create")) {
+                Player p = (Player) sender;
+                ItemStack honeyChest = new ItemStack(Material.CHEST);
+                ItemMeta meta = honeyChest.getItemMeta();
+                meta.setDisplayName("§H§o§n§e§y§8Chest");
+                honeyChest.setItemMeta(meta);
+                p.getInventory().addItem(honeyChest);
+                sender.sendMessage(prefix + "作成しました");
+                return true;
+            } else if (args[0].equalsIgnoreCase("help")){
+                help(sender);
+                return true;
+            }
+            sender.sendMessage(prefix + "引数に誤りがあります\n" + prefix + "/hchest help");
+            return true;
+        }
+        return false;
+    }
+    void help(CommandSender sender) {
+        sender.sendMessage("§6===============§4[§5Man10HoneyChest§4]§6===============\n ");
+        sender.sendMessage("§d§l/mhchest create <jail/warn/practice> <self/op/global>\n ");
+        sender.sendMessage("§6==============================================");
+    }
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         try {
@@ -37,6 +70,7 @@ public final class Man10HoneyChest extends JavaPlugin {
                 }
                 String test = e.getWhoClicked().getName();
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tell " + test + "あいうえお");
+                e.getWhoClicked().sendMessage(prefix + "作成しました");
                 return;
             }
         }catch (NullPointerException ee){
