@@ -40,7 +40,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                 Player p = (Player) sender;
                 ItemStack honeyChest = new ItemStack(Material.CHEST);
                 ItemMeta meta = honeyChest.getItemMeta();
-                meta.setDisplayName("§H§o§n§e§y§8Chest");
+                meta.setDisplayName("§8Chest");
                 honeyChest.setItemMeta(meta);
                 p.getInventory().addItem(honeyChest);
                 sender.sendMessage(prefix + "作成しました");
@@ -63,21 +63,23 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
     public void onClick(InventoryClickEvent e) {
         e.getWhoClicked().sendMessage("さ");
         try {
-            getLogger().info("getTitle: "+e.getView().getTitle());
-            if (e.getView().getTitle().equals("§H§o§n§e§y§8Chest")){
+            if (e.getView().getTitle().equals("§8Chest")){
                 e.getWhoClicked().sendMessage("き");
+                if(!(e.getRawSlot() < e.getInventory().getSize())) {
+                    e.setCancelled(true);
+                    return;
+                }
                 if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
                     return;
                 }
-                e.setCancelled(true);
                 e.getWhoClicked().sendMessage("め");
                 if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) {
                     return;
                 }
-                String test = e.getWhoClicked().getName();
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tell " + test + "あいうえお");
-                e.getWhoClicked().sendMessage(prefix + "アイテムを撮りました");
-                return;
+                    String test = e.getWhoClicked().getName();
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tell " + test + " あいうえお");
+                    e.getWhoClicked().sendMessage(prefix + "アイテムを取りました");
+                    return;
             }
         }catch (NullPointerException ee){
         }
