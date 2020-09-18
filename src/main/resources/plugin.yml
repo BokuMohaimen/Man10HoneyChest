@@ -1,0 +1,9 @@
+name: Man10HoneyChest
+version: 1.0
+main: honeychest.man10honeychest.Man10HoneyChest
+api-version: 1.16
+permissions:
+  man10honeychest.op:
+    default: op
+commands:
+  mhchest:
