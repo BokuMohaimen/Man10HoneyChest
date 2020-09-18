@@ -33,17 +33,30 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("mhchest")) {
+            if (args.length == 0) {
+                sender.sendMessage(prefix + "引数に誤りがあります\n" + prefix + "/hchest help");
+                return true;
+            }
             if (args.length >= 2) {
                 sender.sendMessage(prefix + "引数に誤りがあります\n" + prefix + "/hchest help");
                 return true;
-            } else if (args[0].equalsIgnoreCase("create")) {
+            } else if (args[0].equalsIgnoreCase("jail")) {
                 Player p = (Player) sender;
                 ItemStack honeyChest = new ItemStack(Material.CHEST);
                 ItemMeta meta = honeyChest.getItemMeta();
                 meta.setDisplayName("§8Chest");
                 honeyChest.setItemMeta(meta);
                 p.getInventory().addItem(honeyChest);
-                sender.sendMessage(prefix + "作成しました");
+                sender.sendMessage(prefix + "ジェイルチェストを作成しました");
+                return true;
+            } if (args[0].equalsIgnoreCase("warn")) {
+                Player p = (Player) sender;
+                ItemStack honeyChest = new ItemStack(Material.CHEST);
+                ItemMeta meta = honeyChest.getItemMeta();
+                meta.setDisplayName("§8チェスト");
+                honeyChest.setItemMeta(meta);
+                p.getInventory().addItem(honeyChest);
+                sender.sendMessage(prefix + "警告チェストを作成しました");
                 return true;
             } else if (args[0].equalsIgnoreCase("help")){
                 help(sender);
@@ -56,29 +69,44 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
     }
     void help(CommandSender sender) {
         sender.sendMessage("§6===============§4[§5Man10HoneyChest§4]§6===============\n ");
-        sender.sendMessage("§d§l/mhchest create <jail/warn/practice> <self/op/global>\n ");
+        sender.sendMessage("§a§l/mhchest <jail|warn>\n ");
         sender.sendMessage("§6==============================================");
     }
     @EventHandler
     public void onClick(InventoryClickEvent e) {
-        e.getWhoClicked().sendMessage("さ");
         try {
-            if (e.getView().getTitle().equals("§8Chest")){
-                e.getWhoClicked().sendMessage("き");
-                if(!(e.getRawSlot() < e.getInventory().getSize())) {
-                    e.setCancelled(true);
-                    return;
-                }
+            if (e.getView().getTitle().equals("§8チェスト")){
                 if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
                     return;
                 }
-                e.getWhoClicked().sendMessage("め");
+                if(e.isShiftClick()||!(e.getRawSlot() < e.getInventory().getSize())) {
+                    e.setCancelled(true);
+                    return;
+                }
                 if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) {
                     return;
                 }
+                e.setCancelled(true);
+                String test = e.getWhoClicked().getName();
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "jail " + test + " moha 10");
+                Bukkit.broadcastMessage(prefix + "§c§l" + e.getWhoClicked().getName() + "さんは『人のチェストからアイテムを取った』の理由で警告されました");
+                return;
+            }
+            if (e.getView().getTitle().equals("§8Chest")){
+                if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
+                    return;
+                }
+                if(e.isShiftClick()||!(e.getRawSlot() < e.getInventory().getSize())) {
+                    e.setCancelled(true);
+                    return;
+                }
+                if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) {
+                    return;
+                }
+                    e.setCancelled(true);
                     String test = e.getWhoClicked().getName();
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tell " + test + " あいうえお");
-                    e.getWhoClicked().sendMessage(prefix + "アイテムを取りました");
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "jail " + test + " moha 10");
+                    Bukkit.broadcastMessage(prefix + "§c§l" + e.getWhoClicked().getName() + "さんは『人のチェストからアイテムを取った』の理由でJailされました");
                     return;
             }
         }catch (NullPointerException ee){
