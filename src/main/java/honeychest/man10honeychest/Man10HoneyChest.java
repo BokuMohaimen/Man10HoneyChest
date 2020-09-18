@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -13,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.EventListener;
 
-public final class Man10HoneyChest extends JavaPlugin {
+public final class Man10HoneyChest extends JavaPlugin implements Listener {
 
     String prefix = "§6§l[§a§lMa§f§ln§d§l10§6§lHChest]§r";
 
@@ -21,6 +22,7 @@ public final class Man10HoneyChest extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         getLogger().info("Man10HoneyChest起動しました");
+        Bukkit.getPluginManager().registerEvents(this,this);
     }
 
     @Override
@@ -59,12 +61,16 @@ public final class Man10HoneyChest extends JavaPlugin {
     }
     @EventHandler
     public void onClick(InventoryClickEvent e) {
+        e.getWhoClicked().sendMessage("さ");
         try {
-            if (e.getView().getTitle() == "§H§o§n§e§y§8Chest"){
+            getLogger().info("getTitle: "+e.getView().getTitle());
+            if (e.getView().getTitle().equals("§H§o§n§e§y§8Chest")){
+                e.getWhoClicked().sendMessage("き");
                 if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
                     return;
                 }
                 e.setCancelled(true);
+                e.getWhoClicked().sendMessage("め");
                 if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) {
                     return;
                 }
