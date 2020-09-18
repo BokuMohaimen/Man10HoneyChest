@@ -70,7 +70,7 @@ public final class Man10HoneyChest extends JavaPlugin {
                 }
                 String test = e.getWhoClicked().getName();
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tell " + test + "あいうえお");
-                e.getWhoClicked().sendMessage(prefix + "作成しました");
+                e.getWhoClicked().sendMessage(prefix + "アイテムを撮りました");
                 return;
             }
         }catch (NullPointerException ee){
