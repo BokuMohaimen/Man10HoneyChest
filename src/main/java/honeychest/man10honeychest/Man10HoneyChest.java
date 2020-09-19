@@ -31,13 +31,13 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
         getLogger().info("Man10HoneyChest起動しました");
         Bukkit.getPluginManager().registerEvents(this,this);
         saveDefaultConfig();
+        config = getConfig();
         jailrunMessage = config.getString("jail.runMessage");
         jailrunCommand = config.getString("jail.runCommand");
         jailplaySound = config.getString("jail.playSound");
         warnrunMessage  = config.getString("warn.runMessage");
         warnrunCommand = config.getString("warn.runCommand");
         warnplaySound = config.getString("warn.playSound");
-        config = getConfig();
     }
 
     @Override
@@ -92,7 +92,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
         sender.sendMessage("§6==============================================");
     }
     @EventHandler
-    public void onClick(InventoryClickEvent e,Player p) {
+    public void onClick(InventoryClickEvent e) {
         try {
             //警告用チェスト
             if (e.getView().getTitle().equals("§8チェスト")){
