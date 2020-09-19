@@ -19,10 +19,14 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
     String prefix = "§6§l[§a§lMa§f§ln§d§l10§6§lHChest]§r";
 
     public String jailrunMessage ="";
-    public String jailrunCommand ="";
+    public String jailrunCommand1 ="";
+    public String jailrunCommand2 ="";
+    public String jailrunCommand3 ="";
     public String jailplaySound ="";
     public String warnrunMessage ="";
-    public String warnrunCommand ="";
+    public String warnrunCommand1 ="";
+    public String warnrunCommand2 ="";
+    public String warnrunCommand3 ="";
     public String warnplaySound ="";
 
     @Override
@@ -33,10 +37,14 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
         saveDefaultConfig();
         config = getConfig();
         jailrunMessage = config.getString("jail.runMessage");
-        jailrunCommand = config.getString("jail.runCommand");
+        jailrunCommand1 = config.getString("jail.runCommand1");
+        jailrunCommand2 = config.getString("jail.runCommand2");
+        jailrunCommand3 = config.getString("jail.runCommand3");
         jailplaySound = config.getString("jail.playSound");
         warnrunMessage  = config.getString("warn.runMessage");
-        warnrunCommand = config.getString("warn.runCommand");
+        warnrunCommand1 = config.getString("warn.runCommand1");
+        warnrunCommand2 = config.getString("warn.runCommand2");
+        warnrunCommand3 = config.getString("warn.runCommand3");
         warnplaySound = config.getString("warn.playSound");
     }
 
@@ -107,11 +115,15 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                     return;
                 }
                 e.setCancelled(true);
-                String conStrComs = config.getString("warn.runCommand");
+                String conStrComs1 = config.getString("warn.runCommand1");
+                String conStrComs2 = config.getString("warn.runCommand2");
+                String conStrComs3 = config.getString("warn.runCommand3");
                 String conStrSounds = config.getString("warn.playSound");
 
                 Bukkit.broadcastMessage(prefix + config.getString("warn.runMessage").replaceAll("%player%", e.getWhoClicked().getName()));
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs.replaceAll("%player%", e.getWhoClicked().getName()));
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs1.replaceAll("%player%", e.getWhoClicked().getName()));
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs2.replaceAll("%player%", e.getWhoClicked().getName()));
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs3.replaceAll("%player%", e.getWhoClicked().getName()));
                 String[] string = conStrSounds.split(",");
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,"execute at " + e.getWhoClicked().getName() + " run playsound minecraft:" + string[0] + " master @a ~ ~ ~ " + string[1] + " " + string[2] + " 0");
                 //できなかった →→→ p.playSound(p.getLocation(), string[0], string[1], string[2]);
@@ -130,11 +142,15 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                     return;
                 }
                     e.setCancelled(true);
-                String conStrComs = config.getString("jail.runCommand");
+                String conStrComs1 = config.getString("jail.runCommand1");
+                String conStrComs2 = config.getString("jail.runCommand2");
+                String conStrComs3 = config.getString("jail.runCommand3");
                 String conStrSounds = config.getString("jail.playSound");
 
                 Bukkit.broadcastMessage(prefix + config.getString("jail.runMessage").replaceAll("%player%", e.getWhoClicked().getName()));
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs.replaceAll("%player%", e.getWhoClicked().getName()));
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs1.replaceAll("%player%", e.getWhoClicked().getName()));
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs2.replaceAll("%player%", e.getWhoClicked().getName()));
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs3.replaceAll("%player%", e.getWhoClicked().getName()));
                 String[] string = conStrSounds.split(",");
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,"execute at " + e.getWhoClicked().getName() + " run playsound minecraft:" + string[0] + " master @a ~ ~ ~ " + string[1] + " " + string[2] + " 0");
                 //できなかった →→→ p.playSound(p.getLocation(), string[0], string[1], string[2]);

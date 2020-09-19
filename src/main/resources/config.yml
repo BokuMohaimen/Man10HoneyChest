@@ -2,9 +2,13 @@
 
 jail:
   runMessage: §c§l%player%は「人のチェストからアイテムを取った」の理由でJailされました
-  runCommand: execute at %player% run particle minecraft:portal ~ ~0.75 ~ 0 0 0 0.5
+  runCommand1: execute at %player% run particle minecraft:portal ~ ~0.75 ~ 0 0 0 0.5
+  runCommand2:
+  runCommand3:
   playSound: block.anvil.destroy,1,1
 warn:
   runMessage: §c§l%player%は「人のチェストからアイテムを取った」の理由で警告されました
-  runCommand: jail %player% moha 10
+  runCommand1: jail %player% moha 10
+  runCommand2:
+  runCommand3:
   playSound: block.anvil.destroy,1,1
