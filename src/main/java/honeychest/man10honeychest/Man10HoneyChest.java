@@ -18,14 +18,26 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
     FileConfiguration config = getConfig();
     String prefix = "§6§l[§a§lMa§f§ln§d§l10§6§lHChest]§r";
 
+    public String jailrunMessage ="";
+    public String jailrunCommand ="";
+    public String jailplaySound ="";
+    public String warnrunMessage ="";
+    public String warnrunCommand ="";
+    public String warnplaySound ="";
+
     @Override
     public void onEnable() {
         // Plugin startup logic
         getLogger().info("Man10HoneyChest起動しました");
         Bukkit.getPluginManager().registerEvents(this,this);
         saveDefaultConfig();
-        saveConfig();
-        config.getString("test");
+        jailrunMessage = config.getString("jail.runMessage");
+        jailrunCommand = config.getString("jail.runCommand");
+        jailplaySound = config.getString("jail.playSound");
+        warnrunMessage  = config.getString("warn.runMessage");
+        warnrunCommand = config.getString("warn.runCommand");
+        warnplaySound = config.getString("warn.playSound");
+        config = getConfig();
     }
 
     @Override
