@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Man10HoneyChest extends JavaPlugin implements Listener {
 
     FileConfiguration config = getConfig();
-    String prefix = "§6§l[§a§lMa§f§ln§d§l10§6§lHChest]§r";
+    String prefix = "§6§l[§a§lM§f§lan§d§l10§6§lHChest]§r";
 
     public String jailrunMessage ="";
     public String jailrunCommand1 ="";
@@ -61,17 +61,17 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
         }
         if (command.getName().equalsIgnoreCase("mhchest")) {
             if (args.length == 0) {
-                sender.sendMessage(prefix + "引数に誤りがあります\n" + prefix + "/hchest help");
+                sender.sendMessage(prefix + "/hchest help");
                 return true;
             }
             if (args.length >= 2) {
-                sender.sendMessage(prefix + "引数に誤りがあります\n" + prefix + "/hchest help");
+                sender.sendMessage(prefix + "/hchest help");
                 return true;
             } else if (args[0].equalsIgnoreCase("jail")) {
                 Player p = (Player) sender;
                 ItemStack honeyChest = new ItemStack(Material.CHEST);
                 ItemMeta meta = honeyChest.getItemMeta();
-                meta.setDisplayName("§8Chest");
+                meta.setDisplayName("§8Chest               .");
                 honeyChest.setItemMeta(meta);
                 p.getInventory().addItem(honeyChest);
                 sender.sendMessage(prefix + "ジェイルチェストを作成しました");
@@ -80,12 +80,16 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                 Player p = (Player) sender;
                 ItemStack honeyChest = new ItemStack(Material.CHEST);
                 ItemMeta meta = honeyChest.getItemMeta();
-                meta.setDisplayName("§8チェスト");
+                meta.setDisplayName("§8チェスト               .");
                 honeyChest.setItemMeta(meta);
                 p.getInventory().addItem(honeyChest);
                 sender.sendMessage(prefix + "警告チェストを作成しました");
                 return true;
-            } else if (args[0].equalsIgnoreCase("help")){
+            } if (args[0].equalsIgnoreCase("reload")) {
+                reloadConfig();
+                sender.sendMessage(prefix + "§econfigのリロードができました");
+                return true;
+            }else if (args[0].equalsIgnoreCase("help")){
                 help(sender);
                 return true;
             }
@@ -96,14 +100,16 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
     }
     void help(CommandSender sender) {
         sender.sendMessage("§6===============§4[§5Man10HoneyChest§4]§6===============");
-        sender.sendMessage("§a§l/mhchest <jail|warn>");
+        sender.sendMessage("§a§l</mhchest jail> §e§lJail専用チェストを出します");
+        sender.sendMessage("§a§l</mhchest warn> §e§l警告専用チェストを出します");
+        sender.sendMessage("§a§l</mhchest reload> §e§lconfigファイルをリロードします");
         sender.sendMessage("§6==============================================");
     }
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         try {
             //警告用チェスト
-            if (e.getView().getTitle().equals("§8チェスト")){
+            if (e.getView().getTitle().equals("§8チェスト               .")){
                 if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
                     return;
                 }
@@ -130,7 +136,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                 return;
             }
             //Jail用チェスト
-            if (e.getView().getTitle().equals("§8Chest")){
+            if (e.getView().getTitle().equals("§8Chest               .")){
                 if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
                     return;
                 }
