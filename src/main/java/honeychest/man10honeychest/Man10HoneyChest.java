@@ -67,7 +67,8 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
             if (args.length >= 2) {
                 sender.sendMessage(prefix + "/hchest help");
                 return true;
-            } else if (args[0].equalsIgnoreCase("jail")) {
+            }
+            if (args[0].equalsIgnoreCase("jail")) {
                 Player p = (Player) sender;
                 ItemStack honeyChest = new ItemStack(Material.CHEST);
                 ItemMeta meta = honeyChest.getItemMeta();
@@ -76,7 +77,8 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                 p.getInventory().addItem(honeyChest);
                 sender.sendMessage(prefix + "ジェイルチェストを作成しました");
                 return true;
-            } if (args[0].equalsIgnoreCase("warn")) {
+            }
+            if (args[0].equalsIgnoreCase("warn")) {
                 Player p = (Player) sender;
                 ItemStack honeyChest = new ItemStack(Material.CHEST);
                 ItemMeta meta = honeyChest.getItemMeta();
@@ -85,11 +87,24 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                 p.getInventory().addItem(honeyChest);
                 sender.sendMessage(prefix + "警告チェストを作成しました");
                 return true;
-            } if (args[0].equalsIgnoreCase("reload")) {
+            }
+            if (args[0].equalsIgnoreCase("reload")) {
                 reloadConfig();
+                config = getConfig();
+                jailrunMessage = config.getString("jail.runMessage");
+                jailrunCommand1 = config.getString("jail.runCommand1");
+                jailrunCommand2 = config.getString("jail.runCommand2");
+                jailrunCommand3 = config.getString("jail.runCommand3");
+                jailplaySound = config.getString("jail.playSound");
+                warnrunMessage  = config.getString("warn.runMessage");
+                warnrunCommand1 = config.getString("warn.runCommand1");
+                warnrunCommand2 = config.getString("warn.runCommand2");
+                warnrunCommand3 = config.getString("warn.runCommand3");
+                warnplaySound = config.getString("warn.playSound");
                 sender.sendMessage(prefix + "§econfigのリロードができました");
                 return true;
-            }else if (args[0].equalsIgnoreCase("help")){
+            }
+            if (args[0].equalsIgnoreCase("help")){
                 help(sender);
                 return true;
             }
