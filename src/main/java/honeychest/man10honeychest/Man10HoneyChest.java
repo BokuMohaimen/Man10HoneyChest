@@ -195,8 +195,8 @@ class MySQLProcess extends Thread {
     }
     public void run(){
         MySQLManager mysql = new MySQLManager(pl, "Man10HoneyChest");
-        String loc = p.getLocation().getWorld().getName() + "-" + p.getLocation().getX() + "-" + p.getLocation().getY() + "-" + p.getLocation().getZ();
-        mysql.execute("INSERT INTO man10honeychest_log (mcid, uuid, location) values (`" + p.getName() + "`,`" + p.getUniqueId() + "`,`" + loc + "`);");
+        String loc = p.getLocation().getWorld().getName() + " ` " + p.getLocation().getX() + " ` " + p.getLocation().getY() + " ` " + p.getLocation().getZ();
+        mysql.execute("INSERT INTO man10honeychest_log (mcid,uuid,location) values ('" + p.getName() + "','" + p.getUniqueId() + "','" + loc + "');");
         mysql.close();
     }
 }

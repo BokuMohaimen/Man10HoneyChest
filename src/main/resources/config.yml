@@ -3,14 +3,14 @@
 jail:
   runMessage: §c§l%player%は「人のチェストからアイテムを取った」の理由でJailされました
   runCommand1: jail %player% moha 10
-  runCommand2:
-  runCommand3:
+  runCommand2: a
+  runCommand3: a
   playSound: block.anvil.land,1,1
 warn:
   runMessage: §c§l%player%は「人のチェストからアイテムを取った」の理由で警告されました
   runCommand1: jail %player% moha 10
-  runCommand2:
-  runCommand3:
+  runCommand2: a
+  runCommand3: a
   playSound: block.anvil.land,1,1
 mysql:
   host: localhost
