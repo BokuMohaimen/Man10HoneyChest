@@ -17,4 +17,4 @@ mysql:
   user: root
   pass: pass
   port: 3306
-  db: man10honeychest_log
+  db: world
