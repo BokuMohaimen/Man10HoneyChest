@@ -35,29 +35,15 @@ public class MySQLManager {
 
         this.connected = Connect(HOST, DB, USER, PASS,PORT);
 
-        execute("CREATE TABLE if not exists `player_data` (\n" +
-                "  `key` int(11) unsigned NOT NULL AUTO_INCREMENT,\n" +
-                "  `player_uuid` varchar(40) DEFAULT NULL,\n" +
-                "  `skill_id` int(11) DEFAULT NULL,\n" +
-                "  `level` int(11) DEFAULT NULL,\n" +
-                "  PRIMARY KEY (`key`)\n" +
-                ") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
-
-
-        execute("CREATE TABLE if not exists `player_skill_limit` (\n" +
-                "  `key` int(11) NOT NULL AUTO_INCREMENT,\n" +
-                "  `uuid` varchar(40) NOT NULL,\n" +
-                "  `skill_limit` int(11) NOT NULL DEFAULT '500',\n" +
-                "  PRIMARY KEY (`key`,`uuid`,`skill_limit`)\n" +
+        execute("CREATE TABLE IF NOT EXISTS `man10honeychest_log` (\n" +
+                "  `id` int(11) NOT NULL AUTO_INCREMENT,\n" +
+                "  `mcid` varchar(16) DEFAULT NULL,\n" +
+                "  `uuid` varchar(36) DEFAULT NULL,\n" +
+                "  `location` varchar(128) DEFAULT NULL,\n" +
+                "  `save_date` datetime DEFAULT CURRENT_TIMESTAMP,\n" +
+                "  PRIMARY KEY (`id`)\n" +
                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 
-
-        execute("CREATE TABLE if not exists `recipes` (" +
-                "`recipe_id`  TEXT NULL DEFAULT NULL,\n" +
-                "`chance_set` TEXT NULL DEFAULT NULL,\n" +
-                "`input` TEXT NULL DEFAULT NULL,\n" +
-                "`output` TEXT NULL DEFAULT NULL\n" +
-                ");");
 
         if(!this.connected) {
             plugin.getLogger().info("Unable to establish a MySQL connection.");

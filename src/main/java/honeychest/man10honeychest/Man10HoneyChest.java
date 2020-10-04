@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public final class Man10HoneyChest extends JavaPlugin implements Listener {
 
@@ -28,6 +29,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
     public String warnrunCommand2 ="";
     public String warnrunCommand3 ="";
     public String warnplaySound ="";
+    MySQLManager mysql = new MySQLManager(this,"MHoneyChest");
 
     @Override
     public void onEnable() {
@@ -122,62 +124,79 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
     }
     @EventHandler
     public void onClick(InventoryClickEvent e) {
-        try {
             //警告用チェスト
-            if (e.getView().getTitle().equals("§8チェスト               .")){
-                if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
-                    return;
-                }
-                if(e.isShiftClick()||!(e.getRawSlot() < e.getInventory().getSize())) {
-                    e.setCancelled(true);
-                    return;
-                }
-                if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) {
-                    return;
-                }
-                e.setCancelled(true);
-                String conStrComs1 = config.getString("warn.runCommand1");
-                String conStrComs2 = config.getString("warn.runCommand2");
-                String conStrComs3 = config.getString("warn.runCommand3");
-                String conStrSounds = config.getString("warn.playSound");
-
-                Bukkit.broadcastMessage(prefix + config.getString("warn.runMessage").replaceAll("%player%", e.getWhoClicked().getName()));
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs1.replaceAll("%player%", e.getWhoClicked().getName()));
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs2.replaceAll("%player%", e.getWhoClicked().getName()));
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs3.replaceAll("%player%", e.getWhoClicked().getName()));
-                String[] string = conStrSounds.split(",");
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,"execute at " + e.getWhoClicked().getName() + " run playsound minecraft:" + string[0] + " master @a ~ ~ ~ " + string[1] + " " + string[2] + " 0");
-                //できなかった →→→ p.playSound(p.getLocation(), string[0], string[1], string[2]);
+        if (e.getView().getTitle().equals("§8チェスト               .")){
+            if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
                 return;
             }
-            //Jail用チェスト
-            if (e.getView().getTitle().equals("§8Chest               .")){
-                if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
-                    return;
-                }
-                if(e.isShiftClick()||!(e.getRawSlot() < e.getInventory().getSize())) {
-                    e.setCancelled(true);
-                    return;
-                }
-                if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) {
-                    return;
-                }
-                    e.setCancelled(true);
-                String conStrComs1 = config.getString("jail.runCommand1");
-                String conStrComs2 = config.getString("jail.runCommand2");
-                String conStrComs3 = config.getString("jail.runCommand3");
-                String conStrSounds = config.getString("jail.playSound");
-
-                Bukkit.broadcastMessage(prefix + config.getString("jail.runMessage").replaceAll("%player%", e.getWhoClicked().getName()));
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs1.replaceAll("%player%", e.getWhoClicked().getName()));
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs2.replaceAll("%player%", e.getWhoClicked().getName()));
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs3.replaceAll("%player%", e.getWhoClicked().getName()));
-                String[] string = conStrSounds.split(",");
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,"execute at " + e.getWhoClicked().getName() + " run playsound minecraft:" + string[0] + " master @a ~ ~ ~ " + string[1] + " " + string[2] + " 0");
-                //できなかった →→→ p.playSound(p.getLocation(), string[0], string[1], string[2]);
-                    return;
+            if(e.isShiftClick()||!(e.getRawSlot() < e.getInventory().getSize())) {
+                e.setCancelled(true);
+                return;
             }
-        }catch (NullPointerException ee){
+            if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) {
+                return;
+            }
+            e.setCancelled(true);
+            String conStrComs1 = config.getString("warn.runCommand1");
+            String conStrComs2 = config.getString("warn.runCommand2");
+            String conStrComs3 = config.getString("warn.runCommand3");
+            String conStrSounds = config.getString("warn.playSound");
+
+            Bukkit.broadcastMessage(prefix + config.getString("warn.runMessage").replaceAll("%player%", e.getWhoClicked().getName()));
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs1.replaceAll("%player%", e.getWhoClicked().getName()));
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs2.replaceAll("%player%", e.getWhoClicked().getName()));
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,conStrComs3.replaceAll("%player%", e.getWhoClicked().getName()));
+            String[] string = conStrSounds.split(",");
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender() ,"execute at " + e.getWhoClicked().getName() + " run playsound minecraft:" + string[0] + " master @a ~ ~ ~ " + string[1] + " " + string[2] + " 0");
+            //できなかった →→→ p.playSound(p.getLocation(), string[0], string[1], string[2]);
+            return;
         }
+        //Jail用チェスト
+        if (e.getView().getTitle().equals("§8Chest               .")) {
+            if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
+                return;
+            }
+            if (e.isShiftClick() || !(e.getRawSlot() < e.getInventory().getSize())) {
+                e.setCancelled(true);
+                return;
+            }
+            if (e.getClick().isKeyboardClick()) {
+                e.setCancelled(true);
+                return;
+            }
+            if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) {
+                return;
+            }
+            e.setCancelled(true);
+            String conStrComs1 = config.getString("jail.runCommand1");
+            String conStrComs2 = config.getString("jail.runCommand2");
+            String conStrComs3 = config.getString("jail.runCommand3");
+            String conStrSounds = config.getString("jail.playSound");
+
+            Bukkit.broadcastMessage(prefix + config.getString("jail.runMessage").replaceAll("%player%", e.getWhoClicked().getName()));
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), conStrComs1.replaceAll("%player%", e.getWhoClicked().getName()));
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), conStrComs2.replaceAll("%player%", e.getWhoClicked().getName()));
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), conStrComs3.replaceAll("%player%", e.getWhoClicked().getName()));
+            String[] string = conStrSounds.split(",");
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "execute at " + e.getWhoClicked().getName() + " run playsound minecraft:" + string[0] + " master @a ~ ~ ~ " + string[1] + " " + string[2] + " 0");
+            //できなかった →→→ p.playSound(p.getLocation(), string[0], string[1], string[2]);
+            MySQLProcess mysql = new MySQLProcess((Player)e.getWhoClicked(),this);
+            mysql.start();
+            return;
+        }
+    }
+}
+class MySQLProcess extends Thread {
+    Player p;
+    Man10HoneyChest pl;
+    public MySQLProcess(Player p, Man10HoneyChest pl){
+        this.pl = pl;
+        this.p = p;
+    }
+    public void run(){
+        MySQLManager mysql = new MySQLManager(pl, "Man10HoneyChest");
+        String loc = p.getLocation().getWorld().getName() + "-" + p.getLocation().getX() + "-" + p.getLocation().getY() + "-" + p.getLocation().getZ();
+        mysql.execute("INSERT INTO man10honeychest_log (mcid, uuid, location) values (`" + p.getName() + "`,`" + p.getUniqueId() + "`,`" + loc + "`);");
+        mysql.close();
     }
 }
