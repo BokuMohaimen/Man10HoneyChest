@@ -74,7 +74,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                 Player p = (Player) sender;
                 ItemStack honeyChest = new ItemStack(Material.CHEST);
                 ItemMeta meta = honeyChest.getItemMeta();
-                meta.setDisplayName("§8Chest               .");
+                meta.setDisplayName("§Ｈ§ｏ§ｎ§ｅ§ｙ§Ｃ§ｈ§ｅ§ｓ§ｔChest");
                 honeyChest.setItemMeta(meta);
                 p.getInventory().addItem(honeyChest);
                 sender.sendMessage(prefix + "ジェイルチェストを作成しました");
@@ -84,7 +84,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                 Player p = (Player) sender;
                 ItemStack honeyChest = new ItemStack(Material.CHEST);
                 ItemMeta meta = honeyChest.getItemMeta();
-                meta.setDisplayName("§8チェスト               .");
+                meta.setDisplayName("§Ｈ§ｏ§ｎ§ｅ§ｙChest");
                 honeyChest.setItemMeta(meta);
                 p.getInventory().addItem(honeyChest);
                 sender.sendMessage(prefix + "警告チェストを作成しました");
@@ -125,7 +125,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent e) {
             //警告用チェスト
-        if (e.getView().getTitle().equals("§8チェスト               .")){
+        if (e.getView().getTitle().equals("§Ｈ§ｏ§ｎ§ｅ§ｙChest")){
             if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
                 return;
             }
@@ -152,7 +152,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
             return;
         }
         //Jail用チェスト
-        if (e.getView().getTitle().equals("§8Chest               .")) {
+        if (e.getView().getTitle().equals("§Ｈ§ｏ§ｎ§ｅ§ｙ§Ｃ§ｈ§ｅ§ｓ§ｔChest")) {
             if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
                 return;
             }
