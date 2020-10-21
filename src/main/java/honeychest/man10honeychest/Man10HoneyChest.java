@@ -63,11 +63,11 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
         }
         if (command.getName().equalsIgnoreCase("mhchest")) {
             if (args.length == 0) {
-                sender.sendMessage(prefix + "/hchest help");
+                sender.sendMessage(prefix + "/mhchest help");
                 return true;
             }
             if (args.length >= 2) {
-                sender.sendMessage(prefix + "/hchest help");
+                sender.sendMessage(prefix + "/mhchest help");
                 return true;
             }
             if (args[0].equalsIgnoreCase("jail")) {
@@ -108,6 +108,27 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
             }
             if (args[0].equalsIgnoreCase("help")){
                 help(sender);
+                return true;
+            }
+            if (args[0].equalsIgnoreCase("config")) {
+                String conStrComs1w = config.getString("warn.runCommand1");
+                String conStrComs2w = config.getString("warn.runCommand2");
+                String conStrComs3w = config.getString("warn.runCommand3");
+                String conStrSoundsw = config.getString("warn.playSound");
+                String conStrComs1j = config.getString("jail.runCommand1");
+                String conStrComs2j = config.getString("jail.runCommand2");
+                String conStrComs3j = config.getString("jail.runCommand3");
+                String conStrSoundsj = config.getString("jail.playSound");
+                sender.sendMessage("§e§l警告用チェストconfig");
+                sender.sendMessage(conStrComs1w);
+                sender.sendMessage(conStrComs2w);
+                sender.sendMessage(conStrComs3w);
+                sender.sendMessage(conStrSoundsw);
+                sender.sendMessage("§e§lJail用チェストconfig");
+                sender.sendMessage(conStrComs1j);
+                sender.sendMessage(conStrComs2j);
+                sender.sendMessage(conStrComs3j);
+                sender.sendMessage(conStrSoundsj);
                 return true;
             }
             sender.sendMessage(prefix + "/hchest help");
@@ -163,6 +184,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
             if (e.getClick().isKeyboardClick()) {
                 e.setCancelled(true);
                 return;
+                //
             }
             if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) {
                 return;
