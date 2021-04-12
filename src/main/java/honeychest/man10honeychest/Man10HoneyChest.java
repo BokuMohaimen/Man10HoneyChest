@@ -14,6 +14,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Objects;
+
 public final class Man10HoneyChest extends JavaPlugin implements Listener {
 
     FileConfiguration config = getConfig();
@@ -74,6 +76,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                 Player p = (Player) sender;
                 ItemStack honeyChest = new ItemStack(Material.CHEST);
                 ItemMeta meta = honeyChest.getItemMeta();
+                assert meta != null;
                 meta.setDisplayName("§Ｈ§ｏ§ｎ§ｅ§ｙ§Ｃ§ｈ§ｅ§ｓ§ｔChest");
                 honeyChest.setItemMeta(meta);
                 p.getInventory().addItem(honeyChest);
@@ -84,6 +87,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
                 Player p = (Player) sender;
                 ItemStack honeyChest = new ItemStack(Material.CHEST);
                 ItemMeta meta = honeyChest.getItemMeta();
+                assert meta != null;
                 meta.setDisplayName("§Ｈ§ｏ§ｎ§ｅ§ｙChest");
                 honeyChest.setItemMeta(meta);
                 p.getInventory().addItem(honeyChest);
@@ -141,6 +145,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
         sender.sendMessage("§a§l</mhchest jail> §e§lJail専用チェストを出します");
         sender.sendMessage("§a§l</mhchest warn> §e§l警告専用チェストを出します");
         sender.sendMessage("§a§l</mhchest reload> §e§lconfigファイルをリロードします");
+        sender.sendMessage("§a§l</mhchest config> §e§lconfigの内容を確認します");
         sender.sendMessage("§6==============================================");
     }
     @EventHandler
@@ -175,6 +180,7 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
         //Jail用チェスト
         if (e.getView().getTitle().equals("§Ｈ§ｏ§ｎ§ｅ§ｙ§Ｃ§ｈ§ｅ§ｓ§ｔChest")) {
             if (e.getWhoClicked().hasPermission("man10honeychest.op")) {
+                e.getWhoClicked().sendMessage("クリックしたJail");
                 return;
             }
             if (e.isShiftClick() || !(e.getRawSlot() < e.getInventory().getSize())) {
@@ -195,16 +201,19 @@ public final class Man10HoneyChest extends JavaPlugin implements Listener {
             String conStrComs3 = config.getString("jail.runCommand3");
             String conStrSounds = config.getString("jail.playSound");
 
-            Bukkit.broadcastMessage(prefix + config.getString("jail.runMessage").replaceAll("%player%", e.getWhoClicked().getName()));
+            Bukkit.broadcastMessage(prefix + Objects.requireNonNull(config.getString("jail.runMessage")).replaceAll("%player%", e.getWhoClicked().getName()));
+            assert conStrComs1 != null;
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), conStrComs1.replaceAll("%player%", e.getWhoClicked().getName()));
+            assert conStrComs2 != null;
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), conStrComs2.replaceAll("%player%", e.getWhoClicked().getName()));
+            assert conStrComs3 != null;
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), conStrComs3.replaceAll("%player%", e.getWhoClicked().getName()));
+            assert conStrSounds != null;
             String[] string = conStrSounds.split(",");
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "execute at " + e.getWhoClicked().getName() + " run playsound minecraft:" + string[0] + " master @a ~ ~ ~ " + string[1] + " " + string[2] + " 0");
             //できなかった →→→ p.playSound(p.getLocation(), string[0], string[1], string[2]);
             MySQLProcess mysql = new MySQLProcess((Player)e.getWhoClicked(),this);
             mysql.start();
-            return;
         }
     }
 }
